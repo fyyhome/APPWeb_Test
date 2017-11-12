@@ -1,0 +1,170 @@
+@charset "utf-8";
+/* CSS Document */
+.titleDiv{
+	width:7.5rem;
+	height:4.99rem;
+	background-image:url(../imgs/publish/title_bg.png);
+	background-position:center;
+	background-repeat:no-repeat;
+	background-size:100%;	
+}
+.inputeCard{
+	width:7.35rem;
+	height:8.95rem;
+	position:absolute;
+	left:0.075rem;
+	top:1.3rem;
+	background-position:center;
+	background-repeat:no-repeat;
+	background-size:100%;
+	border:none;
+}
+.schoolBUT{
+	background-image: url(../imgs/publish/school_card.png);
+}
+.personBUT{
+	background-image: url(../imgs/publish/person_card.png);
+}
+.bankBUT{
+	background-image: url(../imgs/publish/bank_card.png);
+}
+.selectButton{
+	width:2.14rem;
+	height:0.6rem;
+	position:relative;
+	left:0.34rem;
+	top:0.6rem;
+	background-color:#FFF;
+	font-size:36px;
+	font-family: Helvetica,"PingFang SC";
+	color:#2ED1C4;
+	border-radius:0.1rem;
+	border:0;
+	outline: none;
+}
+.selectButton1{
+	width:2.14rem;
+	height:0.6rem;
+	position:relative;
+	left:0.34rem;
+	top:0.6rem;
+	background-color:#F8F7EE;
+	font-size:36px;
+	font-family: Helvetica,"PingFang SC";
+	color:#2ED1C4;
+	border-radius:0.1rem;
+	border:0;
+	outline: none;
+}
+.publishError{
+	width:3.5rem;
+	height:1.66rem;
+/*	display:none;*/
+	position:absolute;
+	bottom: 2.5rem;
+	left: 1.8rem;
+	border: solid;
+	border-radius: 0.2rem;
+	background-image: url(../imgs/publish/blackframe.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+.yesDisplay{
+	display: block;
+}
+.noDisplay{
+	display:none;
+}
+.isTrue{
+	width: 0.59rem;
+	height: 0.43rem;
+	position: relative;
+	background-image: url(../imgs/publish/t_icon.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	top:0.24rem;
+	left:1.4rem ;
+}
+.tipTD1{
+	width: 0.23rem;
+	height: 0.23rem;
+	position: relative;
+	left: 0.7rem;
+	top:0.8rem;
+	background-image: url(../imgs/publish/tip_icon.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+.tipTD2{
+	position: relative;
+	left: 0.7rem;
+	top:0.8rem;
+	font-size: 0.26rem;
+	font-family: Helvetica,"PingFang SC";
+	color: #000;
+}
+.publishButton{
+	width: 2.06rem;
+	height: 2.06rem;
+	border: none;
+	outline: none;
+	position: relative;
+	top: 1.9rem;
+	left: 2.5rem;
+	font-size: 0.4rem;
+	font-family: Helvetica,"PingFang SC";
+	font-weight: bolder;
+	color: #FFF;
+	background-color: #FFF;
+	background-image: url(../imgs/publish/decide_bg.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+.textareaStyle{
+	width: 6.25rem;
+	height: 6.5rem;
+	position: relative;
+	top: 0.7rem;
+	left: 0.4rem;
+	border: none;
+}
+.messageInput{
+	width: 2.15rem;
+	height: 0.5rem;
+	border:solid;
+	border-radius: 0.1rem;
+	outline: none;
+	font-size: 0.3rem;
+	font-family: Helvetica,"PingFang SC";
+	padding-left: 0.1rem;
+}
+.msgTrue{
+	border-color: #F8F7EE;
+	color: #000;
+}
+.msgFalse{
+	border-color: #F00;
+	color:#F00; 
+}
+.error{
+	width:3.5rem;
+	height:1.66rem;
+	position:fixed;
+	top:4rem;
+	left:1.75rem;
+	z-index:9999;
+	font-size:0.36rem;
+	font-family: Helvetica,"PingFang SC";
+	color:#FFF;
+	font-weight:bolder;
+	padding-top:1.2rem;
+	padding-left:0.7rem;
+	background-image:url(../drawable-xhdpi/frame_bg.png);
+	background-position:center;
+	background-repeat:no-repeat;
+	background-size:100%;
+}

@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link type="text/css" rel="stylesheet" href="../cssFile/login.css" />
+<link type="text/css" rel="stylesheet" href="../cssFile/publish.css" />
+<script type="text/javascript" src="../jsFile/login.js"></script>
+<script src="https://unpkg.com/vue"></script>
+<title>publish</title>
+</head>
+
+<body onload="setHtmlSize()">
+<div class="div1">
+	<div class="titleDiv">
+	</div>
+	<div id="publishInput" v-bind:class="[schoolCard? 'schoolBUT': (idCard? 'personBUT':'bankBUT'),'inputeCard']">
+		<table>
+			<tr>
+		    <td><button v-bind:class="[schoolCard? 'selectButton': 'selectButton1']" v-on:click="schoolEnter">校园卡</button></td>
+		    <td><button v-bind:class="[idCard? 'selectButton': 'selectButton1']" v-on:click="idEnter">身份证</button></td>
+		    <td><button v-bind:class="[bankCard? 'selectButton': 'selectButton1']" v-on:click="bankEnter">银行卡</button></td>
+		    </tr>
+		</table>
+		<div id="textareaDiv" class="textareaStyle">
+			<p v-for="item in todosMessage"><input type="text" v-bind:class="[item.msgIsError? 'msgFalse':'msgTrue','messageInput']" placeholder="请输入卡号" v-model="item.kh" v-on:keyup.enter="addNewTodo"><br></p>
+		</div>
+		<div v-bind:class="[publishIsError? 'yesDisplay':'noDisplay','messageInput']">
+			<div class="isTrue"></div>
+		</div>
+		<div id="ErrorTip" class="error" v-if="!isError">卡号填写错误！</div>
+		<table>
+			<tr>
+				<td class="tipTD1"></td>
+				<td class="tipTD2">支持卡号批量输入，请用“,”分隔</td>
+			</tr>
+		</table>
+		<button class="publishButton" v-on:click="sendMessage">发布</button>
+	</div>
+</div>
+</body>
+
+<script>
+	var inputvue = new Vue({
+		el: '#publishInput',
+		data:{
+			isError:1,
+			schoolCard:true,
+			idCard:false,
+			bankCard:false,
+			publishIsError:false,
+			number:'',
+			todosMessage:[
+				{cardID:1,kh:'',lost_type:1,msgIsError:false}
+			],
+			nextInputID:2
+		},
+		methods:{
+			schoolEnter:function(){
+				this.schoolCard = true;
+				this.idCard = false;
+				this.bankCard = false;
+
+			},
+			idEnter:function(){
+				this.schoolCard = false;
+				this.idCard = true;
+				this.bankCard = false;
+			},
+			bankEnter:function(){
+				this.schoolCard = false;
+				this.idCard = false;
+				this.bankCard = true;
+			},
+			judgeMessage:function(msg){
+
+				if(this.schoolCard){
+					if(msg.length == 10)
+						return 1;
+					else
+						return false;
+				}
+				else if(this.idCard){
+					if(msg.length == 18)
+						return 2;
+					else
+						return false;
+				}
+				else{
+					if(msg.length == 19)
+						return 3;
+					else
+						return false;
+				}
+			},
+			addNewTodo:function(){
+				var i = this.todosMessage.length - 1;
+				var type = this.judgeMessage(this.todosMessage[i].kh);
+				if(type){
+					this.todosMessage[i].msgIsError=false;
+					this.todosMessage.push({
+						cardID:this.nextInputID++,
+						kh:'',
+						//kh:this.number,
+						lost_type:type,
+						msgIsError:false
+					});
+				}
+				else{
+					this.todosMessage[i].msgIsError=true;
+					//alert("404");	
+				}
+			},
+			getLocalMessage:function(){
+                if(!window.localStorage){
+                    return false;
+                }
+                else{
+                    return window.localStorage.token;
+                }
+            },
+			sendMessage:function(event){
+                var jsonMessage = '';
+                var jsonType = {
+                	data:[]
+                }
+                for(var i = 0; i < this.todosMessage.length; i++){
+                	jsonType.data.push(this.todosMessage[i]);
+                }
+                jsonMessage = JSON.stringify(jsonType);
+                // alert(jsonMessage);
+                var xhr = new XMLHttpRequest();
+                var t = this.getLocalMessage();
+                var that = this;      
+                xhr.onreadystatechange = function(){
+                    if(xhr.readyState == 4){
+                        if(xhr.status >= 200 && xhr.status <300 || xhr.status == 304){
+                            console.log(xhr.responseText);
+                            alert(xhr.responseText);
+                            var msg = JSON.parse(xhr.responseText);
+                            if(msg.code == 3){
+                            	that.isError = 0;
+                            	setTimeout(function(){
+                            		that.isError = 1;
+                            	},1500);
+                            	for(var i = 0; i < msg.fail.length; i++){
+                            		for(var n = 0; n < that.todosMessage.length; n++){
+                            			if(msg.fail[i] == that.todosMessage[n].kh){
+                            				that.todosMessage[n].msgIsError = true;
+                            			}
+                            		}
+                            	}
+                            } 
+                        }
+                        else{
+                            alert("Request is fail:"+xhr.status);
+                        }
+                    }
+                };
+                xhr.open('post','http://127.0.0.1:5000/api/post/newFound',true);
+				xhr.setRequestHeader("Authorization",t);
+                xhr.send(jsonMessage);  
+            }
+		}
+	});
+</script>
+</html>
