@@ -5,40 +5,46 @@
 <meta name="viewport"  content="initial-scale=1"/>
 <link type="text/css" rel="stylesheet" href="../cssFile/login.css" />
 <script type="text/javascript" src="../jsFile/login.js"></script>
-<script src="https://unpkg.com/vue"></script>
+<script type="text/javascript" src="../jsFile/vue.js"></script>
 <title>login</title>
 </head>
 
 <body onload="setHtmlSize()">
 <div id="div1" class="div1">
-<div id="div2" class="div2">
-<img class="img2" src="../drawable-xhdpi/picture4.png" />
-<img class="img1" src="../drawable-xhdpi/head.png" />
-</div>
-<div id="loginDiv3" class="div3">
-<table class="cinTable">
-    <tr>
-        <td class="td1"></td>
-        <td><input type="text" id="num" class="cinInput" placeholder="学号" v-model="message.username"/></td>   
-    </tr>
-    <tr><td colspan="2"><hr /><br /></td></tr>
-    <div id="ErrorTip" class="ErrorTip" v-if="!isError">学号或密码错误</div>
-    <tr>
-        <td class="td2"></td>
-        <td><input type="password" id="password" class="cinInput" placeholder="云家园密码" v-model="message.password"/></td>
-    </tr>
-    <tr><td colspan="2"><hr /></td></tr>
-</table>
-<table class="LoginTable">
-	<tr>
-    <td class="td3"><button class="loginInpute" v-on:click="enterFn">登录</button></td>
-    </tr>
-    <tr><td style="height:0.5rem;"></td></tr>
-    <tr>
-    <td><center><a href="changePassword.html" target="_self"><font class="fontstyle">修改密码</font></a></center></td>
-    </tr>
-</table>
-</div>
+	<div id="div2" class="div2">
+	<img class="img2" src="../drawable-xhdpi/picture4.png" />
+	<img class="img1" src="../drawable-xhdpi/head.png" />
+	</div>
+	<div id="loginDiv3" class="div3">
+		<div class="cinTable">
+			<form action="#" method="post" accept-charset="utf-8">
+				<dl>
+					<dt> <img src="../drawable-xhdpi/icon_name.png" class="name_icon" /> </dt>
+					<dd><input type="text" id="num" class="cinInput"  placeholder="学号" v-model="message.username" /> </dd>
+				</dl>
+				<hr>
+				<dl>
+					<dt style="height: 0.5rem"></dt>
+					<dd style="height: 0.5rem"></dd>
+				</dl>
+				<dl>
+					<dt> <img src="../drawable-xhdpi/passwordIcon.png" class="password_icon" /> </dt>
+					<dd><input type="password" id="password" class="cinInput" placeholder="云家园密码" v-model="message.password"/> </dd>
+				</dl>
+				<hr>
+			</form>
+			<div id="ErrorTip" class="ErrorTip" v-if="!isError">学号或密码错误</div>
+		</div>
+		<table class="LoginTable">
+			<tr>
+		    <td class="td3"><button class="loginInpute" v-on:click="enterFn">登录</button></td>
+		    </tr>
+		    <tr><td style="height:0.5rem;"></td></tr>
+		    <tr>
+		    <td><center><a href="changePassword.html" target="_self"><font class="fontstyle">修改密码</font></a></center></td>
+		    </tr>
+		</table>
+	</div>
 </div>
 </body>
 <script>
@@ -47,7 +53,7 @@
         data:{
             message:{username:'',password:''},
             isError:true,
-            url:'http://127.0.0.1:5000/api/user/token'
+            url:'http://192.168.2.67:5000/api/user/token'
         },
         methods:{
             sendMessage:function(){

@@ -8,11 +8,25 @@
 	background-repeat:no-repeat;
 	background-size:100%;	
 }
+.backButton{
+	width: 0.23rem;
+	height: 0.37rem;
+	position: relative;
+	top: 0.63rem;
+	left:0.17rem;
+	border:none;
+	outline: none;
+	background-color: #5AD3B4;
+	background-image: url(../imgs/publish/back_con.png);
+	background-position:center;
+	background-repeat:no-repeat;
+	background-size:100%;
+}
 .inputeCard{
 	width:7.35rem;
 	height:8.95rem;
 	position:absolute;
-	left:0.075rem;
+	left:0.1rem;
 	top:1.3rem;
 	background-position:center;
 	background-repeat:no-repeat;
@@ -29,27 +43,28 @@
 	background-image: url(../imgs/publish/bank_card.png);
 }
 .selectButton{
-	width:2.14rem;
+/*	width:2.14rem;*/
+	width:2.1rem;
 	height:0.6rem;
 	position:relative;
 	left:0.34rem;
 	top:0.6rem;
 	background-color:#FFF;
-	font-size:36px;
+	font-size:0.36rem;
 	font-family: Helvetica,"PingFang SC";
 	color:#2ED1C4;
 	border-radius:0.1rem;
-	border:0;
+	border:none;
 	outline: none;
 }
 .selectButton1{
-	width:2.14rem;
+	width:2.1rem;
 	height:0.6rem;
 	position:relative;
 	left:0.34rem;
 	top:0.6rem;
 	background-color:#F8F7EE;
-	font-size:36px;
+	font-size:0.36rem;
 	font-family: Helvetica,"PingFang SC";
 	color:#2ED1C4;
 	border-radius:0.1rem;

@@ -5,13 +5,14 @@
 <link type="text/css" rel="stylesheet" href="../cssFile/login.css" />
 <link type="text/css" rel="stylesheet" href="../cssFile/publish.css" />
 <script type="text/javascript" src="../jsFile/login.js"></script>
-<script src="https://unpkg.com/vue"></script>
+<script type="text/javascript" src="../jsFile/vue.js"></script>
 <title>publish</title>
 </head>
 
 <body onload="setHtmlSize()">
 <div class="div1">
 	<div class="titleDiv">
+		<button class="backButton" onclick="window.location.href = 'index.html'"></button>
 	</div>
 	<div id="publishInput" v-bind:class="[schoolCard? 'schoolBUT': (idCard? 'personBUT':'bankBUT'),'inputeCard']">
 		<table>
@@ -27,7 +28,8 @@
 		<div v-bind:class="[publishIsError? 'yesDisplay':'noDisplay','messageInput']">
 			<div class="isTrue"></div>
 		</div>
-		<div id="ErrorTip" class="error" v-if="!isError">卡号填写错误！</div>
+		<div id="ErrorTip" class="error" v-if="!isError">{{tipTxt}}</div>
+		<!-- <div id="ErrorTip" class="error" v-if="!isError">卡号填写错误！</div> -->
 		<table>
 			<tr>
 				<td class="tipTD1"></td>
@@ -44,6 +46,7 @@
 		el: '#publishInput',
 		data:{
 			isError:1,
+			tipTxt:'卡号填写错误！',
 			schoolCard:true,
 			idCard:false,
 			bankCard:false,
@@ -72,14 +75,14 @@
 				this.bankCard = true;
 			},
 			judgeMessage:function(msg){
-
-				if(this.schoolCard){
+				var that = this;
+				if(that.schoolCard){
 					if(msg.length == 10)
 						return 1;
 					else
 						return false;
 				}
-				else if(this.idCard){
+				else if(that.idCard){
 					if(msg.length == 18)
 						return 2;
 					else
@@ -100,14 +103,12 @@
 					this.todosMessage.push({
 						cardID:this.nextInputID++,
 						kh:'',
-						//kh:this.number,
 						lost_type:type,
 						msgIsError:false
 					});
 				}
 				else{
 					this.todosMessage[i].msgIsError=true;
-					//alert("404");	
 				}
 			},
 			getLocalMessage:function(){
@@ -127,7 +128,6 @@
                 	jsonType.data.push(this.todosMessage[i]);
                 }
                 jsonMessage = JSON.stringify(jsonType);
-                // alert(jsonMessage);
                 var xhr = new XMLHttpRequest();
                 var t = this.getLocalMessage();
                 var that = this;      
@@ -135,9 +135,10 @@
                     if(xhr.readyState == 4){
                         if(xhr.status >= 200 && xhr.status <300 || xhr.status == 304){
                             console.log(xhr.responseText);
-                            alert(xhr.responseText);
                             var msg = JSON.parse(xhr.responseText);
+                            /*发布失败*/
                             if(msg.code == 3){
+                            	that.tipTxt = '卡号填写错误！';
                             	that.isError = 0;
                             	setTimeout(function(){
                             		that.isError = 1;
@@ -149,14 +150,24 @@
                             			}
                             		}
                             	}
-                            } 
+                            }
+                            /*发布成功*/ 
+                            else{
+                            	that.tipTxt = '发布成功！';
+                            	that.isError = 0;
+                            	that.todosMessage.splice(0,todosMessage.length);
+                            	setTimeout(function(){
+                            		that.isError = 1;
+                            	},1000);
+
+                            }
                         }
                         else{
                             alert("Request is fail:"+xhr.status);
                         }
                     }
                 };
-                xhr.open('post','http://127.0.0.1:5000/api/post/newFound',true);
+                xhr.open('post','http://192.168.2.67:5000/api/post/newFound',true);
 				xhr.setRequestHeader("Authorization",t);
                 xhr.send(jsonMessage);  
             }

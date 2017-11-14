@@ -5,7 +5,7 @@
 <link type="text/css" rel="stylesheet" href="../cssFile/login.css" />
 <link type="text/css" rel="stylesheet" href="../cssFile/index.css" />
 <script type="text/javascript" src="../jsFile/login.js"></script>
-<script src="https://unpkg.com/vue"></script>
+<script type="text/javascript" src="../jsFile/vue.js"></script>
 
 <title>index</title>
 </head>
@@ -88,7 +88,7 @@
 			},
 			isEnter:function(){
 				var xhr = new XMLHttpRequest();
-				xhr.open('post','http://127.0.0.1:5000/api/found_status',true);
+				xhr.open('post','http://192.168.2.67:5000/api/found_status',true);
 				var t = this.getLocalMessage();
 				xhr.setRequestHeader("Authorization",t);
 				xhr.send(this.deleteNum);
@@ -103,7 +103,7 @@
 				// }	
 			},
 			searchMessage:function(){
-				var url = "http://127.0.0.1:5000/api/found";
+				var url = "http://192.168.2.67:5000/api/found";
 				url = this.addURL(url,'p',this.searchTXT);
 				var xhr = new XMLHttpRequest();
 				var t = this.getLocalMessage();
@@ -136,7 +136,7 @@
                 }
             },
 			sendRequest:function(page){
-				var url = "http://127.0.0.1:5000/api/founds?limit=15";
+				var url = "http://192.168.2.67:5000/api/founds?limit=15";
 				var xhr= createXHR();
 				var that = this;
 				xhr.onreadystatechange = function(){
@@ -193,7 +193,7 @@
 			}
 		},
 		mounted:function(){
-			this.sendRequest(this.currentPage);
+			// this.sendRequest(this.currentPage);
 			window.addEventListener('scroll',this.handleScroll);
 		},
 		beforeDestory:function(){
