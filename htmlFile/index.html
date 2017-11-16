@@ -17,6 +17,7 @@
 	<div class="searchDiv">
 		<input type="text" id="search_txt" class="searchInput" placeholder="输入卡号或姓名搜索" v-model="searchTXT" v-on:focus="seen = 0"/>
 		<button id="search_button" class="searchButton" v-on:click="searchMessage"></button>
+		<button class="backButton" v-on:click=" seen = 1">
 	</div>
 	<button class="addMessage" v-on:click="addFn"></button>
 	<div id="msgDiv" class="messageDiv" v-if="seen">
@@ -39,8 +40,8 @@
 	<div class="enterStyle" v-if="enterSeen">
 		<div class="enterDiv">
 			<p class="enterTd">确认失主已认领？</p>
-			<button class="tdButton" style="border-right: 0.01rem solid #2ED; border-bottom-left-radius: 0.1rem" v-on:click="enterSeen = 0">取消</button>
-			<button class="tdButton" style="border-bottom-right-radius: 0.1rem" v-on:click="isEnter">确定</button>
+			<button class="tdButton" style="border-right: 0.01rem solid #2ED; border-bottom-left-radius: 0.2rem" v-on:click="enterSeen = 0">取消</button>
+			<button class="tdButton" style="border-bottom-right-radius: 0.2rem" v-on:click="isEnter">确定</button>
 		</div>
 	</div>
 </div>
@@ -75,7 +76,7 @@
 				var scrollTop = document.body.scrollTop;
                 var allHeight = document.body.scrollHeight;//如果滚动高度=页面总长-页面一屏的高度（即--滚动条到了底部）
                 if(scrollTop >= allHeight - this.pageHeight){
-                	 this.sendRequest(this.currentPage);
+                	 // this.sendRequest(this.currentPage);
                 }
 			},
 			addFn:function(){
@@ -145,18 +146,18 @@
 							that.currentPage+=1;
 						}
 						else{
-							alert("Request is fail:"+xhr.status);
+							alert("网络错误:"+xhr.status);
 						}
 					}
 				};
 				url = this.addURL(url,'offset',this.currentPage);
+				var t = that.getLocalMessage();
 				xhr.open('get',url,false);
-				// xhr.setRequestHeader("Authorization",this.getLocalMessage);
+				xhr.setRequestHeader("Authorization",t);
 				xhr.send(null);
 								/*数据处理函数*/
 				var jsonTXT =JSON.parse(xhr.responseText);
 				var newdate = new Date();
-				// var num = this.currentPage * 15 + i;
 				if(jsonTXT.lostList.length == 0){
 					window.removeEventListener("scroll",this.handleScroll);
 				}

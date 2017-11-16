@@ -26,7 +26,7 @@
 	width:7.35rem;
 	height:8.95rem;
 	position:absolute;
-	left:0.1rem;
+	left:0.14rem;
 	top:1.3rem;
 	background-position:center;
 	background-repeat:no-repeat;
@@ -44,10 +44,10 @@
 }
 .selectButton{
 /*	width:2.14rem;*/
-	width:2.1rem;
+	width:2.148rem;
 	height:0.6rem;
 	position:relative;
-	left:0.34rem;
+	left:0.329rem;
 	top:0.6rem;
 	background-color:#FFF;
 	font-size:0.36rem;
@@ -58,49 +58,38 @@
 	outline: none;
 }
 .selectButton1{
-	width:2.1rem;
+	width:2.148rem;
 	height:0.6rem;
 	position:relative;
-	left:0.34rem;
+	left:0.329rem;
 	top:0.6rem;
 	background-color:#F8F7EE;
 	font-size:0.36rem;
 	font-family: Helvetica,"PingFang SC";
 	color:#2ED1C4;
 	border-radius:0.1rem;
-	border:0;
+	border:none;
 	outline: none;
-}
-.publishError{
-	width:3.5rem;
-	height:1.66rem;
-/*	display:none;*/
-	position:absolute;
-	bottom: 2.5rem;
-	left: 1.8rem;
-	border: solid;
-	border-radius: 0.2rem;
-	background-image: url(../imgs/publish/blackframe.png);
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: 100%;
-}
-.yesDisplay{
-	display: block;
-}
-.noDisplay{
-	display:none;
 }
 .isTrue{
 	width: 0.59rem;
 	height: 0.43rem;
-	position: relative;
+	position:relative;
+	left:1.5rem;
 	background-image: url(../imgs/publish/t_icon.png);
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: 100%;
-	top:0.24rem;
-	left:1.4rem ;
+}
+.isFalse{
+	width: 0.35rem;
+	height: 0.34rem;
+	position:relative;
+	left:1.5rem;
+	background-image: url(../imgs/publish/f_icon.png);
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: 100%;
 }
 .tipTD1{
 	width: 0.23rem;
@@ -169,16 +158,16 @@
 	width:3.5rem;
 	height:1.66rem;
 	position:fixed;
-	top:4rem;
+	top:5rem;
 	left:1.75rem;
 	z-index:9999;
 	font-size:0.36rem;
 	font-family: Helvetica,"PingFang SC";
 	color:#FFF;
-	font-weight:bolder;
-	padding-top:1.2rem;
-	padding-left:0.7rem;
-	background-image:url(../drawable-xhdpi/frame_bg.png);
+	padding-top:0.6rem;
+/*	padding-left:0.7rem;*/
+	text-align: center;
+	background-image:url(../imgs/publish/blackframe.png);
 	background-position:center;
 	background-repeat:no-repeat;
 	background-size:100%;

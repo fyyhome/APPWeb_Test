@@ -53,7 +53,7 @@
         data:{
             message:{username:'',password:''},
             isError:true,
-            url:'http://192.168.2.67:5000/api/user/token'
+            url:'http://139.199.66.15:5000/api/user/token'
         },
         methods:{
             sendMessage:function(){
@@ -78,7 +78,7 @@
                             }
                         }
                         else{
-                            alert("Request is fail:"+xhr.status);
+                            alert("网络错误:"+xhr.status);
                         }
                     }
                 };
