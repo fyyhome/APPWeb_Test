@@ -135,11 +135,12 @@
 	top: 0.7rem;
 	left: 0.4rem;
 	border: none;
+	overflow-y:scroll;
 }
 .messageInput{
-	width: 2.15rem;
+	/*width: 2.15rem;*/
 	height: 0.5rem;
-	border:solid;
+	border:none;
 	border-radius: 0.1rem;
 	outline: none;
 	font-size: 0.3rem;
@@ -147,11 +148,11 @@
 	padding-left: 0.1rem;
 }
 .msgTrue{
-	border-color: #F8F7EE;
+/*	border-color: #F8F7EE;*/
 	color: #000;
 }
 .msgFalse{
-	border-color: #F00;
+/*	border-color: #F00;*/
 	color:#F00; 
 }
 .error{

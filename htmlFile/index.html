@@ -13,11 +13,12 @@
 <body onload="setHtmlSize()">
 <div id="mainDiv" class="mainDiv">
 	<div class="titleDiv">
+		<button class="backButton" v-on:click=" seen = 1; afterSearch = {cardNum:'',cardType:'',name:'',status:'',date:''}; searchSeen = 0; "></button>
 	</div>
 	<div class="searchDiv">
-		<input type="text" id="search_txt" class="searchInput" placeholder="输入卡号或姓名搜索" v-model="searchTXT" v-on:focus="seen = 0"/>
+		<input type="text" id="search_txt" class="searchInput" placeholder="输入卡号或姓名搜索" v-model="searchTXT" v-on:focus="seen = 0" v-on:keyup.enter="searchMessage"/>
 		<button id="search_button" class="searchButton" v-on:click="searchMessage"></button>
-		<button class="backButton" v-on:click=" seen = 1">
+		<button class="clearButton" v-on:click=" searchTXT = ''">
 	</div>
 	<button class="addMessage" v-on:click="addFn"></button>
 	<div id="msgDiv" class="messageDiv" v-if="seen">
@@ -25,7 +26,7 @@
 			<p class="date">{{todo[0].date}}<hr></p>
 			<div>
 				<table class="messageStyle"  v-for="item in todo">
-					<tr><td rowspan="2" v-bind:class="[item.cardType==1? 'schoolCard':(item.cardType==2 ? 'idCard':'bankCard'),'type']"></td><td class="message1">{{item.name}}</td><td rowspan="2"><button class="enterButton" v-on:click="deleteNum = item.cardNum; enterSeen = 1;"></button></td></tr>
+					<tr><td rowspan="2"><div v-bind:class="[item.cardType==1? 'schoolCard':(item.cardType==2 ? 'idCard':'bankCard'),'typeDiv']"></div></td><td class="message1">{{item.name}}</td><td rowspan="2"><button class="enterButton" v-on:click="deleteNum = item.cardNum; enterSeen = 1;"></button></td></tr>
 					<tr><td class="message2">{{item.cardNum}}</td></tr>
 				</table>
 			</div>
@@ -33,7 +34,7 @@
 	</div>
 	<div v-if="searchSeen">
 		<table class="messageStyle">
-			<tr><td rowspan="2" v-bind:class="[afterSearch.cardType==1? 'schoolCard':(afterSearch.cardType==2 ? 'idCard':'bankCard'),'type']"></td><td class="message1">{{afterSearch.name}}</td><td rowspan="2"><button class="enterButton" v-on:click="deleteNum = afterSearch.cardNum; enterSeen = 1;"></button></td></tr>
+			<tr><td rowspan="2"><div v-bind:class="[afterSearch.cardType==1? 'schoolCard':(afterSearch.cardType==2 ? 'idCard':'bankCard'),'typeDiv']"></div></td><td class="message1">{{afterSearch.name}}</td><td rowspan="2"><button class="enterButton" v-on:click="deleteNum = afterSearch.cardNum; enterSeen = 1;"></button></td></tr>
 			<tr><td class="message2">{{afterSearch.cardNum}}</td></tr>
 		</table>
 	</div>
@@ -60,7 +61,7 @@
 			searchSeen:0,
 			gro:[
 				[
-				{id:1,cardNum:111111,cardType:1,name:'fff',status:'',date:'10.27'}
+				// {id:1,cardNum:'',cardType:'',name:'',status:'',date:''}
 				]
 			],
 			afterSearch:{
@@ -76,7 +77,8 @@
 				var scrollTop = document.body.scrollTop;
                 var allHeight = document.body.scrollHeight;//如果滚动高度=页面总长-页面一屏的高度（即--滚动条到了底部）
                 if(scrollTop >= allHeight - this.pageHeight){
-                	 // this.sendRequest(this.currentPage);
+                	this.sendRequest(this.currentPage);
+                	
                 }
 			},
 			addFn:function(){
@@ -89,12 +91,22 @@
 			},
 			isEnter:function(){
 				var xhr = new XMLHttpRequest();
-				xhr.open('post','http://192.168.2.67:5000/api/found_status',true);
+				var i;
+				xhr.open('post','http://139.199.66.15:5000/api/found_status',true);
 				var t = this.getLocalMessage();
 				xhr.setRequestHeader("Authorization",t);
 				xhr.send(this.deleteNum);
 				// var jsontxt = JSON.parse(xhr.responseText);
-				console.log(xhr.responseText);
+				// console.log(xhr.responseText);
+				for(item in this.gro){
+					for(i = 0; i < item.length; i++){
+						if(item[i].cardNum == this.deleteNum){
+							item.splice(i,1);
+							break;
+						}
+					}
+				}
+
 				this.enterSeen = 0;
 				// if(jsontxt.code == 0){
 				// 	alert("操作成功");
@@ -104,7 +116,7 @@
 				// }	
 			},
 			searchMessage:function(){
-				var url = "http://192.168.2.67:5000/api/found";
+				var url = "http://139.199.66.15:5000/api/found";
 				url = this.addURL(url,'p',this.searchTXT);
 				var xhr = new XMLHttpRequest();
 				var t = this.getLocalMessage();
@@ -137,13 +149,18 @@
                 }
             },
 			sendRequest:function(page){
-				var url = "http://192.168.2.67:5000/api/founds?limit=15";
+				var url = "http://139.199.66.15:5000/api/founds?limit=15";
 				var xhr= createXHR();
 				var that = this;
 				xhr.onreadystatechange = function(){
 					if(xhr.readyState == 4){
 						if(xhr.status >= 200 && xhr.status <300 || xhr.status == 304){
 							that.currentPage+=1;
+							window.removeEventListener('scroll',that.handleScroll);
+							var json =JSON.parse(xhr.responseText);
+							if(json.lostList.length != 0){
+								setTimeout(function(){window.addEventListener('scroll',that.handleScroll);},500);
+							}	
 						}
 						else{
 							alert("网络错误:"+xhr.status);
@@ -157,6 +174,9 @@
 				xhr.send(null);
 								/*数据处理函数*/
 				var jsonTXT =JSON.parse(xhr.responseText);
+				if(jsonTXT.code == -1){
+					window.location.href = "login.html";
+				}
 				var newdate = new Date();
 				if(jsonTXT.lostList.length == 0){
 					window.removeEventListener("scroll",this.handleScroll);
@@ -165,8 +185,17 @@
 					for(var i = 0; i<jsonTXT.lostList.length; i++){
 						newdate.setTime(jsonTXT.lostList[i].found_time * 1000);
 						for(var n = 0; n < this.gro.length; n++){
-							if( ((newdate.getMonth()+1)+'.'+newdate.getDate()) == this.gro[n][0].date){
-								
+							if(this.gro[0].length == 0){
+								this.gro[n].push({
+									id:this.nextID++,
+			                		cardNum:jsonTXT.lostList[i].kh,
+			                		name:jsonTXT.lostList[i].xm,
+			                		cardType:jsonTXT.lostList[i].lost_type,
+			                		status:jsonTXT.lostList[i].is_claim,
+			                		date:(newdate.getMonth()+1)+'.'+newdate.getDate()
+			                	});
+							}
+							else if( ((newdate.getMonth()+1)+'.'+newdate.getDate()) == this.gro[n][0].date){								
 								this.gro[n].push({
 									id:this.nextID++,
 			                		cardNum:jsonTXT.lostList[i].kh,
@@ -194,7 +223,7 @@
 			}
 		},
 		mounted:function(){
-			// this.sendRequest(this.currentPage);
+			this.sendRequest(this.currentPage);
 			window.addEventListener('scroll',this.handleScroll);
 		},
 		beforeDestory:function(){

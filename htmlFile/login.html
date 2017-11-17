@@ -64,7 +64,6 @@
                     if(xhr.readyState == 4){
                         if(xhr.status >= 200 && xhr.status <300 || xhr.status == 304){
                             var msg = JSON.parse(xhr.responseText);
-                            
                             if(msg.code != 0){
                             	console.log("111");
                             	that.isError = false;
@@ -83,7 +82,7 @@
                     }
                 };
                 xhr.open('post',this.url,true);
-                xhr.send(jsonMessage);  
+                xhr.send(jsonMessage);
             },
             getLocalMessage:function(){
                 if(!window.localStorage){
