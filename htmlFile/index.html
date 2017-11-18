@@ -100,8 +100,10 @@
 				for(j = 0; j < this.gro.length; j++){
 					for(i = 0; i < this.gro[j].length; i++){
 						if(this.gro[j][i].cardNum == this.deleteNum.kh){
-							console.log("here");
 							this.gro[j].splice(i,1);
+							if(j == 0 && i == 0){
+								this.msgSeen = 0;
+							}
 							break;
 						}
 					}
