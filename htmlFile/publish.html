@@ -122,10 +122,15 @@
                 xhr.onreadystatechange = function(){
                     if(xhr.readyState == 4){
                         if(xhr.status >= 200 && xhr.status <300 || xhr.status == 304){
-                            console.log(xhr.responseText);
                             var msg = JSON.parse(xhr.responseText);
+                            if(msg.code == -1){
+                            	that.tipTxt = '请重新登录！即将跳转';
+                            	that.publishIsError = 0;
+                            	that.isError = 0;
+                            	setTimeout("window.location.href = 'login.html'",1000);
+                            }
                             /*发布失败*/
-                            if(msg.code == 3){
+                            else if(msg.code == 3){
                             	that.tipTxt = '卡号填写错误！';
                             	that.publishIsError = 0;
                             	that.isError = 0;

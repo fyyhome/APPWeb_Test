@@ -26,7 +26,7 @@
 			<p class="date">{{todo[0].date}}<hr></p>
 			<div>
 				<table class="messageStyle"  v-for="item in todo">
-					<tr><td rowspan="2"><div v-bind:class="[item.cardType==1? 'schoolCard':(item.cardType==2 ? 'idCard':'bankCard'),'typeDiv']"></div></td><td class="message1">{{item.name}}</td><td rowspan="2"><button class="enterButton" v-on:click="deleteNum = item.cardNum; enterSeen = 1;"></button></td></tr>
+					<tr><td rowspan="2"><div v-bind:class="[item.cardType==1? 'schoolCard':(item.cardType==2 ? 'idCard':'bankCard'),'typeDiv']"></div></td><td class="message1">{{item.name}}</td><td rowspan="2"><button class="enterButton" v-on:click="deleteNum.kh = item.cardNum; enterSeen = 1;"></button></td></tr>
 					<tr><td class="message2">{{item.cardNum}}</td></tr>
 				</table>
 			</div>
@@ -34,7 +34,7 @@
 	</div>
 	<div v-if="searchSeen">
 		<table class="messageStyle">
-			<tr><td rowspan="2"><div v-bind:class="[afterSearch.cardType==1? 'schoolCard':(afterSearch.cardType==2 ? 'idCard':'bankCard'),'typeDiv']"></div></td><td class="message1">{{afterSearch.name}}</td><td rowspan="2"><button class="enterButton" v-on:click="deleteNum = afterSearch.cardNum; enterSeen = 1;"></button></td></tr>
+			<tr><td rowspan="2"><div v-bind:class="[afterSearch.cardType==1? 'schoolCard':(afterSearch.cardType==2 ? 'idCard':'bankCard'),'typeDiv']"></div></td><td class="message1">{{afterSearch.name}}</td><td rowspan="2"><button class="enterButton" v-on:click="deleteNum.kh = afterSearch.cardNum; enterSeen = 1;"></button></td></tr>
 			<tr><td class="message2">{{afterSearch.cardNum}}</td></tr>
 		</table>
 	</div>
@@ -56,7 +56,7 @@
 			currentPage:0,
 			searchTXT:'',
 			enterSeen:0,
-			deleteNum:'',
+			deleteNum:{kh:''},
 			seen:1,
 			searchSeen:0,
 			gro:[
@@ -91,22 +91,23 @@
 			},
 			isEnter:function(){
 				var xhr = new XMLHttpRequest();
-				var i;
+				var i,j;
 				xhr.open('post','http://139.199.66.15:5000/api/found_status',true);
 				var t = this.getLocalMessage();
 				xhr.setRequestHeader("Authorization",t);
-				xhr.send(this.deleteNum);
+				xhr.send(JSON.stringify(this.deleteNum));
 				// var jsontxt = JSON.parse(xhr.responseText);
 				// console.log(xhr.responseText);
-				for(item in this.gro){
-					for(i = 0; i < item.length; i++){
-						if(item[i].cardNum == this.deleteNum){
-							item.splice(i,1);
+
+				for(j = 0; j < this.gro.length; j++){
+					for(i = 0; i < this.gro[j].length; i++){
+						if(this.gro[j][i].cardNum == this.deleteNum.kh){
+							console.log("here");
+							this.gro[j].splice(i,1);
 							break;
 						}
 					}
 				}
-
 				this.enterSeen = 0;
 				// if(jsontxt.code == 0){
 				// 	alert("操作成功");
@@ -186,7 +187,7 @@
 						newdate.setTime(jsonTXT.lostList[i].found_time * 1000);
 						for(var n = 0; n < this.gro.length; n++){
 							if(this.gro[0].length == 0){
-								this.gro[n].push({
+								this.gro[0].push({
 									id:this.nextID++,
 			                		cardNum:jsonTXT.lostList[i].kh,
 			                		name:jsonTXT.lostList[i].xm,

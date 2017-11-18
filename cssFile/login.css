@@ -81,7 +81,7 @@ dl{
 	color:#FFF;
 	font-weight:bolder;
 	background-color:#FFF;
-	background-image:url(../drawable-xhdpi/login_background.png);
+	background-image:url(../imgs/drawable-xhdpi/login_background.png);
 	background-position:center;
 	background-repeat:no-repeat;
 	background-size:100%;
@@ -103,7 +103,7 @@ dl{
 	color:#FFF;
 	padding-top:1.2rem;
 	padding-left:0.7rem;
-	background-image:url(../drawable-xhdpi/frame_bg.png);
+	background-image:url(../imgs/drawable-xhdpi/frame_bg.png);
 	background-position:center;
 	background-repeat:no-repeat;
 	background-size:100%;
