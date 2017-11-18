@@ -101,7 +101,7 @@
 					for(i = 0; i < this.gro[j].length; i++){
 						if(this.gro[j][i].cardNum == this.deleteNum.kh){
 							this.gro[j].splice(i,1);
-							if(j == 0 && i == 0){
+							if(this.gro.length == 1 && this.gro[0].length == 0){
 								this.msgSeen = 0;
 							}
 							break;
