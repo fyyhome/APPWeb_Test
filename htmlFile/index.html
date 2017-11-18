@@ -22,7 +22,7 @@
 	</div>
 	<button class="addMessage" v-on:click="addFn"></button>
 	<div id="msgDiv" class="messageDiv" v-if="seen">
-		<div v-for="todo in gro">
+		<div v-for="todo in gro" v-if="msgSeen">
 			<p class="date">{{todo[0].date}}<hr></p>
 			<div>
 				<table class="messageStyle"  v-for="item in todo">
@@ -52,16 +52,16 @@
 		el:'#mainDiv',
 		data:{
 			pageHeight:document.body.clientHeight, //页面一屏的高度
-			nextID:2,
+			nextID:1,
 			currentPage:0,
 			searchTXT:'',
 			enterSeen:0,
 			deleteNum:{kh:''},
 			seen:1,
 			searchSeen:0,
+			msgSeen:0,
 			gro:[
 				[
-				// {id:1,cardNum:'',cardType:'',name:'',status:'',date:''}
 				]
 			],
 			afterSearch:{
@@ -97,8 +97,6 @@
 				xhr.setRequestHeader("Authorization",t);
 				xhr.send(JSON.stringify(this.deleteNum));
 				// var jsontxt = JSON.parse(xhr.responseText);
-				// console.log(xhr.responseText);
-
 				for(j = 0; j < this.gro.length; j++){
 					for(i = 0; i < this.gro[j].length; i++){
 						if(this.gro[j][i].cardNum == this.deleteNum.kh){
@@ -195,6 +193,7 @@
 			                		status:jsonTXT.lostList[i].is_claim,
 			                		date:(newdate.getMonth()+1)+'.'+newdate.getDate()
 			                	});
+			                	this.msgSeen = 1;
 							}
 							else if( ((newdate.getMonth()+1)+'.'+newdate.getDate()) == this.gro[n][0].date){								
 								this.gro[n].push({
@@ -220,7 +219,7 @@
 							}
 						}
 					}
-				}	
+				}
 			}
 		},
 		mounted:function(){
