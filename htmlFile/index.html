@@ -127,8 +127,8 @@
 				var jsonTXT =JSON.parse(xhr.responseText);
 				if(jsonTXT.code == 5){
 					alert("该信息不存在！");
-					this.seen = 1;
 					this.searchSeen = 0;
+					this.seen = 1;
 				}
 				else{
 					var newdate = new Date();
