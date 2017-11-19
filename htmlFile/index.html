@@ -65,13 +65,6 @@
 				]
 			],
 			afterSearch:[]
-			// afterSearch:{
-			// 	cardNum:'',
-			// 	cardType:'',
-			// 	name:'',
-			// 	status:'',
-			// 	date:''
-			// }
 		},
 		methods:{
 			handleScroll:function(){
@@ -110,13 +103,23 @@
 					}
 				}
 				this.enterSeen = 0;
-				this.searchSeen = 0;
+				if(this.searchSeen == 1){
+					for(i = 0 ; i < this.afterSearch.length; i++){
+						if(this.afterSearch[i].cardNum == this.deleteNum.kh){
+							this.afterSearch.splice(i,1);
+							if(this.afterSearch.length == 0){
+								this.searchSeen = 0;
+							}
+						}
+					}
+				}
 				// if(jsontxt.code == 0){
 				// 	alert("操作成功");
 				// }
 				// else{
 				// 	alert("操作失败！");
-				// }	
+				// }
+
 			},
 			searchMessage:function(){
 				var url = "http://139.199.66.15:5000/api/found";
@@ -129,9 +132,6 @@
 				var jsonTXT =JSON.parse(xhr.responseText);
 				if(jsonTXT.code == 5){
 					alert("该信息不存在！");//这里要用提示框代替
-					// this.searchSeen = 0;
-					// this.searchTXT = '';
-					// this.seen = 1;
 				}
 				else{
 					this.afterSearch = [];
