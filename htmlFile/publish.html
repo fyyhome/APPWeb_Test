@@ -23,7 +23,7 @@
 		    </tr>
 		</table>
 		<div id="textareaDiv" class="textareaStyle">
-			<p v-for="item in todosMessage"><input type="text" v-bind:class="[item.msgIsError? 'msgFalse':'msgTrue','messageInput']" placeholder="请输入卡号" v-model="item.kh" v-on:keyup.enter="addNewTodo"><br></p>
+			<p v-for="item in todosMessage"><input type="text" v-bind:class="[item.msgIsError? 'msgFalse':'msgTrue','messageInput']" placeholder="请输入卡号" v-model="item.kh" v-on:keyup.enter="addNewTodo" v-on:keydown.delete="deleteTodo(item.cardID-1,item.kh)" v-focus="focusStatus"><br></p>
 		</div>
 		<div id="ErrorTip" class="error" v-if="!isError">
 			<div class="isTrue" v-if = "publishIsError"></div>
@@ -45,6 +45,7 @@
 	var inputvue = new Vue({
 		el: '#publishInput',
 		data:{
+			focusStatus:1,
 			isError:1,
 			tipTxt:'卡号填写错误！',
 			schoolCard:true,
@@ -55,6 +56,7 @@
 			todosMessage:[
 				{cardID:1,kh:'',lost_type:'',msgIsError:false}
 			],
+			deleteID:null,
 			nextInputID:2
 		},
 		methods:{
@@ -94,6 +96,12 @@
 					lost_type:'',
 					msgIsError:false
 				});				
+			},
+			deleteTodo:function(id,kh){
+				if(kh == ''){
+					this.todosMessage.splice(id,1);
+					this.nextInputID--;
+				}			
 			},
 			getLocalMessage:function(){
                 if(!window.localStorage){
@@ -166,6 +174,15 @@
 				xhr.setRequestHeader("Authorization",t);
                 xhr.send(jsonMessage);  
             }
+		},
+		directives: {
+		    focus: {
+		        inserted: function (el, {value}){
+		            if (value) {
+		                el.focus();
+			        }
+	       		}
+    		}
 		}
 	});
 </script>

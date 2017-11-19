@@ -13,12 +13,12 @@
 <body onload="setHtmlSize()">
 <div id="mainDiv" class="mainDiv">
 	<div class="titleDiv">
-		<button class="backButton" v-on:click=" seen = 1; afterSearch = {cardNum:'',cardType:'',name:'',status:'',date:''}; searchSeen = 0; "></button>
+		<button class="backButton" v-on:click=" seen = 1; afterSearch = {cardNum:'',cardType:'',name:'',status:'',date:''}; searchSeen = 0; searchTXT = '';" v-if="!seen"></button>
 	</div>
 	<div class="searchDiv">
-		<input type="text" id="search_txt" class="searchInput" placeholder="输入卡号或姓名搜索" v-model="searchTXT" v-on:focus="seen = 0" v-on:keyup.enter="searchMessage"/>
+		<input type="text" id="search_txt" class="searchInput" placeholder="输入卡号或姓名搜索" v-model="searchTXT" v-on:focus="seen = 0;" v-on:keyup.enter="searchMessage"/>
 		<button id="search_button" class="searchButton" v-on:click="searchMessage"></button>
-		<button class="clearButton" v-on:click=" searchTXT = ''">
+		<button class="clearButton" v-on:click=" searchTXT = ''" v-if="searchTXT != ''">
 	</div>
 	<button class="addMessage" v-on:click="addFn"></button>
 	<div id="msgDiv" class="messageDiv" v-if="seen">
@@ -101,7 +101,7 @@
 					for(i = 0; i < this.gro[j].length; i++){
 						if(this.gro[j][i].cardNum == this.deleteNum.kh){
 							this.gro[j].splice(i,1);
-							if(j == 0 && i == 0){
+							if(this.gro.length == 1 && this.gro[0].length == 0){
 								this.msgSeen = 0;
 							}
 							break;
@@ -109,6 +109,7 @@
 					}
 				}
 				this.enterSeen = 0;
+				this.searchSeen = 0;
 				// if(jsontxt.code == 0){
 				// 	alert("操作成功");
 				// }
@@ -127,8 +128,8 @@
 				var jsonTXT =JSON.parse(xhr.responseText);
 				if(jsonTXT.code == 5){
 					alert("该信息不存在！");
-					this.seen = 1;
 					this.searchSeen = 0;
+					this.seen = 1;
 				}
 				else{
 					var newdate = new Date();
