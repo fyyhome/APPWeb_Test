@@ -134,7 +134,7 @@
 					// this.seen = 1;
 				}
 				else{
-					console.log(xhr.responseText);
+					this.afterSearch = [];
 					for(var i = 0; i < jsonTXT.info.length; i++){
 						var newdate = new Date();
 					 	newdate.setTime(jsonTXT.info[i].found_time * 1000);
