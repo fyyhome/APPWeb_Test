@@ -134,17 +134,29 @@
 					// this.seen = 1;
 				}
 				else{
-					for(item in jsonTXT.info){
+					console.log(xhr.responseText);
+					for(var i = 0; i < jsonTXT.info.length; i++){
 						var newdate = new Date();
-						newdate.setTime(item.found_time * 1000);
-						this.afterSearch.push({
-							cardNum: item.kh,
-							cardType: item.lost_type,
-							name:item.xm,
-							status: item.is_claim,
+					 	newdate.setTime(jsonTXT.info[i].found_time * 1000);
+					 	this.afterSearch.push({
+							cardNum: jsonTXT.info[i].kh,
+							cardType: jsonTXT.info[i].lost_type,
+							name:jsonTXT.info[i].xm,
+							status: jsonTXT.info[i].is_claim,
 							date: (newdate.getMonth()+1)+'.'+newdate.getDate()
 						});
 					}
+					// for(item in jsonTXT.info){
+					// 	var newdate = new Date();
+					// 	newdate.setTime(item.found_time * 1000);
+					// 	this.afterSearch.push({
+					// 		cardNum: item.kh,
+					// 		cardType: item.lost_type,
+					// 		name:item.xm,
+					// 		status: item.is_claim,
+					// 		date: (newdate.getMonth()+1)+'.'+newdate.getDate()
+					// 	});
+					// }
 					this.searchSeen = 1;
 				}				
 			},
