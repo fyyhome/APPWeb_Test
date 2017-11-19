@@ -13,7 +13,7 @@
 <body onload="setHtmlSize()">
 <div id="mainDiv" class="mainDiv">
 	<div class="titleDiv">
-		<button class="backButton" v-on:click=" seen = 1; afterSearch = {cardNum:'',cardType:'',name:'',status:'',date:''}; searchSeen = 0; searchTXT = '';" v-if="!seen"></button>
+		<button class="backButton" v-on:click=" seen = 1; afterSearch = []; searchSeen = 0; searchTXT = '';" v-if="!seen"></button>
 	</div>
 	<div class="searchDiv">
 		<input type="text" id="search_txt" class="searchInput" placeholder="输入卡号或姓名搜索" v-model="searchTXT" v-on:focus="seen = 0;" v-on:keyup.enter="searchMessage"/>
@@ -33,9 +33,9 @@
 		</div>
 	</div>
 	<div v-if="searchSeen">
-		<table class="messageStyle">
-			<tr><td rowspan="2"><div v-bind:class="[afterSearch.cardType==1? 'schoolCard':(afterSearch.cardType==2 ? 'idCard':'bankCard'),'typeDiv']"></div></td><td class="message1">{{afterSearch.name}}</td><td rowspan="2"><button class="enterButton" v-on:click="deleteNum.kh = afterSearch.cardNum; enterSeen = 1;"></button></td></tr>
-			<tr><td class="message2">{{afterSearch.cardNum}}</td></tr>
+		<table class="messageStyle" v-for="item in afterSearch">
+			<tr><td rowspan="2"><div v-bind:class="[item.cardType==1? 'schoolCard':(item.cardType==2 ? 'idCard':'bankCard'),'typeDiv']"></div></td><td class="message1">{{item.name}}</td><td rowspan="2"><button class="enterButton" v-on:click="deleteNum.kh = item.cardNum; enterSeen = 1;"></button></td></tr>
+			<tr><td class="message2">{{item.cardNum}}</td></tr>
 		</table>
 	</div>
 	<div class="enterStyle" v-if="enterSeen">
@@ -64,13 +64,14 @@
 				[
 				]
 			],
-			afterSearch:{
-				cardNum:'',
-				cardType:'',
-				name:'',
-				status:'',
-				date:''
-			}
+			afterSearch:[]
+			// afterSearch:{
+			// 	cardNum:'',
+			// 	cardType:'',
+			// 	name:'',
+			// 	status:'',
+			// 	date:''
+			// }
 		},
 		methods:{
 			handleScroll:function(){
@@ -133,13 +134,17 @@
 					// this.seen = 1;
 				}
 				else{
-					var newdate = new Date();
-					newdate.setTime(jsonTXT.info.found_time * 1000);	
-					this.afterSearch.cardNum = jsonTXT.info.kh;
-					this.afterSearch.cardType = jsonTXT.info.lost_type;
-					this.afterSearch.name = jsonTXT.info.xm;
-					this.afterSearch.status = jsonTXT.info.is_claim;
-					this.afterSearch.date = (newdate.getMonth()+1)+'.'+newdate.getDate();
+					for(item in jsonTXT.info){
+						var newdate = new Date();
+						newdate.setTime(item.found_time * 1000);
+						this.afterSearch.push({
+							cardNum: item.kh,
+							cardType: item.lost_type,
+							name:item.xm,
+							status: item.is_claim,
+							date: (newdate.getMonth()+1)+'.'+newdate.getDate()
+						});
+					}
 					this.searchSeen = 1;
 				}				
 			},
