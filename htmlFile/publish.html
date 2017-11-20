@@ -4,7 +4,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link type="text/css" rel="stylesheet" href="../cssFile/login.css" />
 <link type="text/css" rel="stylesheet" href="../cssFile/publish.css" />
-<script type="text/javascript" src="../jsFile/login.js"></script>
 <script type="text/javascript" src="../jsFile/vue.js"></script>
 <title>publish</title>
 </head>
@@ -42,6 +41,10 @@
 </body>
 
 <script>
+	//设置页面大小
+	function setHtmlSize(){
+	  document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px'; 
+	}
 	var inputvue = new Vue({
 		el: '#publishInput',
 		data:{

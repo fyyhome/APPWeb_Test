@@ -4,7 +4,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport"  content="initial-scale=1"/>
 <link type="text/css" rel="stylesheet" href="../cssFile/login.css" />
-<script type="text/javascript" src="../jsFile/login.js"></script>
 <script type="text/javascript" src="../jsFile/vue.js"></script>
 <title>login</title>
 </head>
@@ -48,6 +47,10 @@
 </div>
 </body>
 <script>
+    //设置页面大小
+    function setHtmlSize(){
+      document.documentElement.style.fontSize = document.documentElement.clientWidth / 7.5 + 'px'; 
+    }
     var loginPage = new Vue({
         el:'#loginDiv3',
         data:{
@@ -65,7 +68,6 @@
                         if(xhr.status >= 200 && xhr.status <300 || xhr.status == 304){
                             var msg = JSON.parse(xhr.responseText);
                             if(msg.code != 0){
-                            	console.log("111");
                             	that.isError = false;
                             	setTimeout(function(){
                             		that.isError = 1;
